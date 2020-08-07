@@ -9,29 +9,48 @@ class Content extends Component {
     return (
       <div className="App-content">
        <Container maxWidth="xs">
-                <Link to="/usuarios">
+                {/* <Link to="/usuarios">
+                    <Button variant="contained" color="default">
+                        Usuarios
+                    </Button>
+                </Link>
+                &nbsp;&nbsp; */}
+                {/* <Link to="/vehiculos">
+                    <Button variant="contained" color="default">
+                        Vehiculos
+                    </Button>
+                </Link>
+                &nbsp;&nbsp; */}
+                <Link to="/usuariosApi">
                     <Button variant="contained" color="default">
                         Usuarios
                     </Button>
                 </Link>
                 &nbsp;&nbsp;
-                <Link to="/vehiculos">
+                <Link to="/combustiblesApi">
+                    <Button variant="contained" color="default">
+                        Combustibles
+                    </Button>
+                </Link>
+                &nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <Link to="/vehiculosApi">
                     <Button variant="contained" color="default">
                         Vehiculos
                     </Button>
                 </Link>
                 &nbsp;&nbsp;
-                <Link to="/usuariosApi">
+                <Link to="/cargasApi">
                     <Button variant="contained" color="default">
-                        Usuarios API
+                        Cargas
                     </Button>
                 </Link>
                 &nbsp;&nbsp;
-                <Link to="/usuariosApiAxios">
+                {/* <Link to="/usuariosApiAxios">
                     <Button variant="contained" color="default">
                         Usuarios API Axios
                     </Button>
-                </Link>
+                </Link> */}
                 
             </Container>
       </div>

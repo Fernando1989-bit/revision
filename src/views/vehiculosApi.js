@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-/* import axios from "axios";   */
+import axios from "axios";
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 import { Fab, TextField } from "@material-ui/core";
@@ -7,6 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PersonIcon from "@material-ui/icons/Person";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import {
   Button,
@@ -18,31 +19,34 @@ import {
   ListItemIcon,
 } from "@material-ui/core";
 
-
-class usuariosApi extends Component {
+class vehiculoApi extends Component {
   constructor(props) {
     super(props);
     this.state = {
       edit: false,
-      idUsuario: 0,
-      usuarios1: [],
+      idVehiculo: 0,
+      vehiculos1: []
       
     };
   }
   state = {};
 
-  titulo = "USUARIOS";
+  titulo = "VEHICULOS";
 
-  frmNombre = React.createRef();
-  frmEdad = React.createRef();
-  frmNivel = React.createRef();
+  frmModelo = React.createRef();
+  frmPlaca = React.createRef();
+  frmChofer = React.createRef();
 
-  addUsuario = (event) => {
+  addVehiculo = (event) => {
     event.preventDefault();
 
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/";
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/vehiculos/";
 
-    const data = { nombre: this.frmNombre.value, edad: this.frmEdad.value };
+    const data = {
+      modelo: this.frmModelo.value,
+      placa: this.frmPlaca.value,
+      usuario:this.frmChofer.value
+    };
 
     fetch(url, {
       method: "POST",
@@ -53,30 +57,39 @@ class usuariosApi extends Component {
       .catch((error) => console.error("Error:", error))
       .then((response) => console.log("Success:", response));
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
+      this.frmModelo.value = "";
+      this.frmPlaca.value = ""; 
+      this.frmChofer.value = "";
+      this.frmModelo.focus();
+      this.frmPlaca.focus();
+      this.frmChofer.focus();
+    
 
-    this.loadUsuario();
+    this.loadVehiculo();
   };
 
-  viewUsuario = (id) => (event) => {
+  viewVehiculo = (id) => (event) => {
     event.preventDefault();
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
-    this.frmNombre.value = this.state.usuarios1[id];
+    this.frmModelo.value = "";
+    this.frmPlaca.value = ""; 
+    this.frmChofer.value = "";
+    this.frmModelo.focus();
+    this.frmPlaca.focus();
+    this.frmChofer.focus();
+    this.frmModelo.value = this.state.vehiculos1[id];
   };
 
-  editUsuario = (id) => (event) => {
+  editVehiculo = (id) => (event) => {
     event.preventDefault();
 
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/"+id;
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/vehiculos/" + id;
 
-    const data = { nombre: this.frmNombre.value, edad: this.frmEdad.value, nive:this.frmNivel.value, id };
+    const data = {
+      modelo: this.frmModelo.value,
+      placa: this.frmPlaca.value,
+      usuario: this.frmChofer.value
+    };
 
     fetch(url, {
       method: "PUT",
@@ -87,25 +100,26 @@ class usuariosApi extends Component {
       .catch((error) => console.error("Error:", error))
       .then((response) => console.log("Success:", response));
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmNivel.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
+   
+      this.frmModelo.value = "";
+      this.frmPlaca.value = ""; 
+      this.frmChofer.value = "";
+      this.frmModelo.focus();
+      this.frmPlaca.focus();
+      this.frmChofer.focus();
 
-    this.loadUsuario();
-    
+    this.loadVehiculo();
 
-    console.log(url);
+   
 
-    this.loadUsuario();
+    this.loadVehiculo();
   };
 
-  deleteUsuario = (id) => (event) => {
+  deleteVehiculo = (id) => (event) => {
     event.preventDefault();
     console.log("Delete action");
-    console.log(id)
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/" + id;
+    console.log(id);
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/vehiculos/" + id;
 
     fetch(url, {
       method: "delete",
@@ -117,19 +131,20 @@ class usuariosApi extends Component {
 
     console.log(url);
 
-    this.loadUsuario();
+    this.loadVehiculo();
   };
 
-  loadUsuario() {
-    fetch("https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/")
+  loadVehiculo() {
+    fetch("https://ing-narez-api5.us-south.cf.appdomain.cloud/api/vehiculos/")
       .then((response) => response.json())
-      .then((json) => this.setState({ usuarios1: json }))
+      .then((json) => this.setState({ vehiculos1: json }))
       .catch((error) => console.log(error));
   }
 
-   componentDidMount() {
-    this.loadUsuario();
-  } 
+  componentDidMount() {
+    this.loadVehiculo();
+    
+  }
 
   render() {
     return (
@@ -146,35 +161,33 @@ class usuariosApi extends Component {
             </Button>
           </Link>
         </Container>
-        <form autoComplete="off" onSubmit={this.addUsuario}>
+        <form autoComplete="off" onSubmit={this.addVehiculo}>
           <TextField
-            label="Nombre"
+            label="Modelo"
             type="text"
             margin="normal"
             variant="outlined"
-            inputRef={(e) => (this.frmNombre = e)}
+            inputRef={(e) => (this.frmModelo = e)}
           />
           <TextField
-            label="Edad"
+            label="Placa"
             type="text"
             margin="normal"
             variant="outlined"
-            inputRef={(e) => (this.frmEdad = e)}
+            inputRef={(e) => (this.frmPlaca = e)}
           />
-          <TextField
-            label="Nivel"
+       <TextField
+            label="Chofer"
             type="text"
             margin="normal"
             variant="outlined"
-            inputRef={(e) => (this.frmNivel = e)}
+            inputRef={(e) => (this.frmChofer = e)}
           />
-          <Fab color="primary" size="medium" onClick={this.addUsuario} >
-           
+
+          <Fab color="primary" size="medium" onClick={this.addVehiculo}>
             <AddIcon />
           </Fab>
-          
         </form>
-       
 
         <List
           component="nav"
@@ -182,17 +195,19 @@ class usuariosApi extends Component {
             <ListSubheader component="div">{this.titulo}</ListSubheader>
           }
         >
-          {this.state.usuarios1.map((usuario, index) => (
+          {this.state.vehiculos1.map((vehiculo, index) => (
             <ListItem button key={index}>
-              <ListItemIcon onClick={this.viewUsuario(index)}>
+              <ListItemIcon onClick={this.viewVehiculo(index)}>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText inset primary={usuario.nombre} />
-              <ListItemText inset primary={usuario.edad} />
-              <ListItemIcon onClick={this.editUsuario(usuario.id)}>
+
+              <ListItemText inset primary={vehiculo.modelo} />
+              <ListItemText inset primary={vehiculo.placa} />
+              <ListItemText inset primary={vehiculo.chofer} />
+              <ListItemIcon onClick={this.editVehiculo(vehiculo.id)}>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemIcon onClick={this.deleteUsuario(usuario.id)}>
+              <ListItemIcon onClick={this.deleteVehiculo(vehiculo.id)}>
                 <DeleteIcon />
               </ListItemIcon>
             </ListItem>
@@ -203,4 +218,4 @@ class usuariosApi extends Component {
   }
 }
 
-export default usuariosApi;
+export default vehiculoApi;

@@ -5,6 +5,9 @@ import usuarios from "./usuarios";
 import vehiculos from "./vehiculos";
 import usuariosApi from "./usuariosApi";
 import usuariosApiAxios from "./usuariosApi";
+import combustiblesApi from "./combustiblesApi";
+import vehiculosApi from "./vehiculosApi";
+import cargasApi from "./cargasApi";
 import NotFound from "./notFound";
 
 const Router=() => (
@@ -15,6 +18,9 @@ const Router=() => (
     <Route  path="/vehiculos" component={vehiculos}/>
     <Route  path="/usuariosApi" component={usuariosApi}/>
     <Route  path="/usuariosApiAxios" component={usuariosApiAxios}/>
+    <Route  path="/combustiblesApi" component={combustiblesApi}/>
+    <Route  path="/vehiculosApi" component={vehiculosApi}/>
+    <Route  path="/cargasApi" component={cargasApi}/>
     <Route  component={NotFound}/>
 
     

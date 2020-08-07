@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-/* import axios from "axios";   */
+ /* import axios from "axios";  */
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 import { Fab, TextField } from "@material-ui/core";
@@ -18,31 +18,28 @@ import {
   ListItemIcon,
 } from "@material-ui/core";
 
-
-class usuariosApi extends Component {
+class combustiblesApi extends Component {
   constructor(props) {
     super(props);
     this.state = {
       edit: false,
-      idUsuario: 0,
-      usuarios1: [],
-      
+      idCombustible: 0,
+      combustibles1: [],
     };
   }
   state = {};
 
-  titulo = "USUARIOS";
+  titulo = "COMBUSTIBLES";
 
-  frmNombre = React.createRef();
-  frmEdad = React.createRef();
-  frmNivel = React.createRef();
+  frmDescripcion = React.createRef();
+  frmPrecio = React.createRef();
 
-  addUsuario = (event) => {
+  addCombustible = (event) => {
     event.preventDefault();
 
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/";
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/combustibles/";
 
-    const data = { nombre: this.frmNombre.value, edad: this.frmEdad.value };
+    const data = { descripcion: this.frmDescripcion.value, precio: this.frmPrecio.value };
 
     fetch(url, {
       method: "POST",
@@ -53,30 +50,30 @@ class usuariosApi extends Component {
       .catch((error) => console.error("Error:", error))
       .then((response) => console.log("Success:", response));
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
+    this.frmDescripcion.value = "";
+    this.frmPrecio.value = "";
+    this.frmDescripcion.focus();
+    this.frmPrecio.focus();
 
-    this.loadUsuario();
+    this.loadCombustible();
   };
 
-  viewUsuario = (id) => (event) => {
+  viewCombustible = (id) => (event) => {
     event.preventDefault();
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
-    this.frmNombre.value = this.state.usuarios1[id];
+    this.frmDescripcion.value = "";
+    this.frmPrecio.value = "";
+    this.frmDescripcion.focus();
+    this.frmPrecio.focus();
+    this.frmDescripcion.value = this.state.combustibles1[id];
   };
 
-  editUsuario = (id) => (event) => {
+  editCombustible = (id) => (event) => {
     event.preventDefault();
 
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/"+id;
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/combustibles/"+id;
 
-    const data = { nombre: this.frmNombre.value, edad: this.frmEdad.value, nive:this.frmNivel.value, id };
+    const data = { descripcion: this.frmDescripcion.value, precio: this.frmPrecio.value, id };
 
     fetch(url, {
       method: "PUT",
@@ -87,25 +84,24 @@ class usuariosApi extends Component {
       .catch((error) => console.error("Error:", error))
       .then((response) => console.log("Success:", response));
 
-    this.frmEdad.value = "";
-    this.frmNombre.value = "";
-    this.frmNivel.value = "";
-    this.frmEdad.focus();
-    this.frmNombre.focus();
+      this.frmDescripcion.value = "";
+      this.frmPrecio.value = "";
+      this.frmDescripcion.focus();
+      this.frmPrecio.focus();
 
-    this.loadUsuario();
+    this.loadCombustible();
     
 
     console.log(url);
 
-    this.loadUsuario();
+    this.loadCombustible();
   };
 
-  deleteUsuario = (id) => (event) => {
+  deleteCombustible = (id) => (event) => {
     event.preventDefault();
     console.log("Delete action");
     console.log(id)
-    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/" + id;
+    const url = "https://ing-narez-api5.us-south.cf.appdomain.cloud/api/combustibles/" + id;
 
     fetch(url, {
       method: "delete",
@@ -117,18 +113,18 @@ class usuariosApi extends Component {
 
     console.log(url);
 
-    this.loadUsuario();
+    this.loadCombustible();
   };
 
-  loadUsuario() {
-    fetch("https://ing-narez-api5.us-south.cf.appdomain.cloud/api/usuarios/")
+  loadCombustible() {
+    fetch("https://ing-narez-api5.us-south.cf.appdomain.cloud/api/combustibles/")
       .then((response) => response.json())
-      .then((json) => this.setState({ usuarios1: json }))
+      .then((json) => this.setState({ combustibles1: json }))
       .catch((error) => console.log(error));
   }
 
    componentDidMount() {
-    this.loadUsuario();
+    this.loadCombustible();
   } 
 
   render() {
@@ -146,29 +142,22 @@ class usuariosApi extends Component {
             </Button>
           </Link>
         </Container>
-        <form autoComplete="off" onSubmit={this.addUsuario}>
+        <form autoComplete="off" onSubmit={this.addCombustible}>
           <TextField
-            label="Nombre"
+            label="Descripcion"
             type="text"
             margin="normal"
             variant="outlined"
-            inputRef={(e) => (this.frmNombre = e)}
+            inputRef={(e) => (this.frmDescripcion = e)}
           />
           <TextField
-            label="Edad"
+            label="Precio"
             type="text"
             margin="normal"
             variant="outlined"
-            inputRef={(e) => (this.frmEdad = e)}
+            inputRef={(e) => (this.frmPrecio = e)}
           />
-          <TextField
-            label="Nivel"
-            type="text"
-            margin="normal"
-            variant="outlined"
-            inputRef={(e) => (this.frmNivel = e)}
-          />
-          <Fab color="primary" size="medium" onClick={this.addUsuario} >
+          <Fab color="primary" size="medium" onClick={this.addCombustible} >
            
             <AddIcon />
           </Fab>
@@ -182,17 +171,18 @@ class usuariosApi extends Component {
             <ListSubheader component="div">{this.titulo}</ListSubheader>
           }
         >
-          {this.state.usuarios1.map((usuario, index) => (
+          {this.state.combustibles1.map((combustible, index) => (
             <ListItem button key={index}>
-              <ListItemIcon onClick={this.viewUsuario(index)}>
+              <ListItemIcon onClick={this.viewCombustible(index)}>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText inset primary={usuario.nombre} />
-              <ListItemText inset primary={usuario.edad} />
-              <ListItemIcon onClick={this.editUsuario(usuario.id)}>
+              
+              <ListItemText inset primary={combustible.descripcion} />
+              <ListItemText inset primary={combustible.precio} />
+              <ListItemIcon onClick={this.editCombustible(combustible.id)}>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemIcon onClick={this.deleteUsuario(usuario.id)}>
+              <ListItemIcon onClick={this.deleteCombustible(combustible.id)}>
                 <DeleteIcon />
               </ListItemIcon>
             </ListItem>
@@ -203,4 +193,4 @@ class usuariosApi extends Component {
   }
 }
 
-export default usuariosApi;
+export default combustiblesApi;
